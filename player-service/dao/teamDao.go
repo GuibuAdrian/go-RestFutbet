@@ -3,7 +3,7 @@ package dao
 import (
 	"fmt"
 	"github.com/kamva/mgm/v3"
-	"go-RestFutbet/models"
+	"go-RestFutbet/player-service/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )

@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/kamva/mgm/v3"
-	"go-RestFutbet/models"
+	"go-RestFutbet/player-service/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -65,13 +65,16 @@ func (playerDao PlayerDao) ReadByPlayerName(playerName string, teamId primitive.
 }
 
 func (playerDao PlayerDao) Read(idP int) (*models.Player, error) {
-	player := &models.Player{}
-	for _, player := range playerDao.playerSlice {
-		if player.GetId() == idP {
-			return player, nil
-		}
-	}
-	return player, errors.New("player not found")
+	player := &Player{}
+	coll := mgm.Coll(player)
+fmt.Println("Player a buscar:", idP)
+	_ = coll.First(bson.M{"id":idP}, player)
+	team,err := TeamDaoGetInstance().Read(player.TeamId)
+	check(err)
+
+	playerM := models.InitPlayer(player.Name, player.Number, player.Number, player.Position, team)
+	fmt.Println(playerM)
+	return playerM, errors.New("player not found")
 }
 
 func (playerDao *PlayerDao) Update(playerId string , player *models.Player)  {
@@ -105,7 +108,7 @@ func (playerDao *PlayerDao) Delete(playerId string)  {
 	check(err)
 }
 
-func (playerDao PlayerDao) GetPlayerSlice() []*models.Player{
+func (playerDao PlayerDao) GetPlayerSlice() []*models.Player {
 	return playerDao.playerSlice
 }
 
