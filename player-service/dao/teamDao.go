@@ -2,8 +2,8 @@ package dao
 
 import (
 	"fmt"
+	"github.com/GuibuAdrian/go-RestFutbet/models"
 	"github.com/kamva/mgm/v3"
-	"go-RestFutbet/player-service/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )

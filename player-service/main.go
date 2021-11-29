@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
+	"github.com/GuibuAdrian/go-RestFutbet/dao"
 	"github.com/GuibuAdrian/go-RestFutbet/db"
-	"github.com/GuibuAdrian/go-RestFutbet/player-service/dao"
+	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
 )
