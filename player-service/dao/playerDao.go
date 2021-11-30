@@ -64,16 +64,26 @@ func (playerDao PlayerDao) ReadByPlayerName(playerName string, teamId primitive.
 	return playerM, errors.New("player not found")
 }
 
+func (playerDao PlayerDao) ReadByTeam(team models.Team) []Player {
+	player := &Player{}
+	coll := mgm.Coll(player)
+	result := []Player{}
+
+	err := coll.SimpleFind(&result, bson.M{"teamid": team.GetTeamObjId()})
+	check(err)
+
+	return result
+}
+
 func (playerDao PlayerDao) Read(idP int) (*models.Player, error) {
 	player := &Player{}
 	coll := mgm.Coll(player)
-fmt.Println("Player a buscar:", idP)
 	_ = coll.First(bson.M{"id":idP}, player)
 	team,err := TeamDaoGetInstance().Read(player.TeamId)
 	check(err)
 
 	playerM := models.InitPlayer(player.Name, player.Number, player.Number, player.Position, team)
-	fmt.Println(playerM)
+	fmt.Println("Player found:", playerM)
 	return playerM, errors.New("player not found")
 }
 

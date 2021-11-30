@@ -18,8 +18,7 @@ type Response1 struct {
 }
 
 func InitMongoDB() {
-	file, _ := ioutil.ReadFile("file.json")
-
+	file, _ := ioutil.ReadFile("../file.json")
 	data := Response1{}
 	_ = json.Unmarshal([]byte(file), &data)
 

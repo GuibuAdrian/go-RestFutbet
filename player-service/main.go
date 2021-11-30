@@ -36,10 +36,23 @@ func getPlayerByID(c *gin.Context) {
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "album not found"})
 }
 
+// getAlbums responds with the list of all albums as JSON.
+func getPlayersByTeam(c *gin.Context) {
+	tName := c.Param("teamName")
+	teamDao := dao.TeamDaoGetInstance()
+
+	team, _ := teamDao.ReadByName(tName)
+
+	players := dao.PlayerDaoGetInstance().ReadByTeam(team)
+
+	c.IndentedJSON(http.StatusOK, players)
+}
+
 func main() {
 	db.InitMongoDB()
 	router := gin.Default()
 	router.GET("/players/:id", getPlayerByID)
+	router.GET("/teamPlayers/:teamName", getPlayersByTeam)
 
 	router.Run("localhost:8080")
 }
